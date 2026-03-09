@@ -28,3 +28,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# User uploads (managed at runtime, not in version control)
+public/uploads/

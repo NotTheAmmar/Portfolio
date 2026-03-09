@@ -78,7 +78,7 @@ For your backend and frontend to communicate securely, you need to tell your bac
 
 Your full-stack MERN portfolio is now successfully deployed and live! 
 
-### How to updating your site going forward:
+### How to update your site going forward:
 Because you linked your GitHub repository to both Vercel and Render:
 1. Make your changes locally.
 2. Commit your code: `git commit -m "Update hero section"`

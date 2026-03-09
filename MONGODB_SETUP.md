@@ -65,10 +65,16 @@ MONGODB_URI=mongodb+srv://username:yourpassword@cluster0.xxxxx.mongodb.net/portf
 PORT=3001
 
 # Admin Panel
-ADMIN_PASSWORD=admin123
+ADMIN_PASSWORD=your_secure_password_here
 
 # Frontend URL (for CORS)
 FRONTEND_URL=http://localhost:5173
+
+# API URL for frontend (Vite requires VITE_ prefix)
+VITE_API_URL=http://localhost:3001
+
+# Gemini API Key (For AI features)
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
 ---
