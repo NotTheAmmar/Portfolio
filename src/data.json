@@ -1,0 +1,281 @@
+{
+    "basics": {
+        "name": "Ammar Rangwala",
+        "label": "Aspiring Developer",
+        "image": "Artifacts/my_photo.png",
+        "email": "ammarrangwala2004@gmail.com",
+        "phone": "+91-8128281628",
+        "summary": "",
+        "location": {
+            "address": "B-3 Noor Square Godi Road",
+            "postalCode": "387151",
+            "city": "Dahod",
+            "countryCode": "IN",
+            "region": "Gujarat"
+        },
+        "profiles": [
+            {
+                "network": "LinkedIn",
+                "username": "Ammar Rangwala",
+                "url": "https://www.linkedin.com/in/ammar-rangwala-s26/"
+            },
+            {
+                "network": "GitHub",
+                "username": "NotTheAmmar",
+                "url": "https://github.com/NotTheAmmar"
+            }
+        ]
+    },
+    "work": [
+        {
+            "name": "Mirage Club (AR/VR Gaming Club), MIT ADT University",
+            "position": "Event Management Team Member",
+            "url": "",
+            "startDate": "2025-09-01",
+            "summary": "Collaborate with team members to plan, organize, and execute campus-wide AR/VR gaming events. Assist in coordinating event logistics, including equipment setup, tournament structuring, and participant engagement.",
+            "highlights": [],
+            "location": "Pune, India"
+        }
+    ],
+    "volunteer": [
+        {
+            "organization": "Training and Placement Cell, Government Polytechnic Dahod",
+            "position": "Student Volunteer",
+            "url": "",
+            "startDate": "2024-03-05",
+            "endDate": "2024-03-05",
+            "summary": "Assisted in the execution of campus placement drives by providing key logistical and administrative support. Managed on-the-day (\"spot\") registrations for student interviews, ensuring candidates were processed efficiently under tight deadlines. Provided support in the event control room, helping to coordinate activities and resolve operational issues as they arose.",
+            "highlights": [],
+            "location": "Dahod, India"
+        }
+    ],
+    "education": [
+        {
+            "institution": "MIT Art, Design and Technology University",
+            "url": "https://mituniversity.ac.in/",
+            "area": "Computer Science & Engineering",
+            "studyType": "Bachelor of Technology",
+            "startDate": "2025-07-01",
+            "score": "9.5/10 CGPA",
+            "courses": [
+                "Cloud Computing"
+            ],
+            "location": "Pune, India",
+            "description": "Pursuing B.Tech via lateral entry after successfully completing a Diploma in Computer Engineering."
+        },
+        {
+            "institution": "Government Polytechnic Dahod",
+            "url": "",
+            "area": "Computer Engineering",
+            "studyType": "Diploma",
+            "startDate": "2022-08-01",
+            "endDate": "2025-05-31",
+            "score": "9.57/10 CGPA",
+            "courses": [],
+            "location": "Dahod, India",
+            "description": "Graduated with an outstanding academic record, achieving a final CGPA of 9.57/10."
+        }
+    ],
+    "awards": [
+        {
+            "title": "First Place - Arduino Day Competition",
+            "date": "2025-03-01",
+            "awarder": "Government Polytechnic Dahod",
+            "summary": "Achieved first place in a multi-stage technical competition by designing, coding, and prototyping a 'Smart Blind Stick'. The winning project utilized ultrasonic and IR sensors to detect obstacles for the visually impaired, showcasing skills in embedded systems, hardware integration, and practical problem-solving."
+        },
+        {
+            "title": "Semester Topper (Rank 1)",
+            "date": "2025-01-01",
+            "awarder": "Government Polytechnic Dahod",
+            "summary": "Consistently secured the top academic rank across multiple semesters, demonstrating a strong command of core computer science and engineering principles."
+        }
+    ],
+    "certificates": [
+        {
+            "name": "Introduction to Cloud Computing",
+            "date": "2026-01-01",
+            "issuer": "IBM",
+            "url": "https://www.coursera.org/account/accomplishments/records/XKNE55PM29KE"
+        },
+        {
+            "name": "Introduction to DevOps",
+            "date": "2026-01-01",
+            "issuer": "IBM",
+            "url": "https://www.coursera.org/account/accomplishments/records/M3MCXDQIDFU6"
+        },
+        {
+            "name": "Unity Certified Associate: Game Developer",
+            "date": "2026-01-01",
+            "issuer": "Unity",
+            "url": "https://www.credly.com/badges/a9dd799f-fc0a-45dc-a691-71b510684951/linked_in_profile"
+        },
+        {
+            "name": "Object Oriented Programming in Java",
+            "date": "2025-12-01",
+            "issuer": "IBM",
+            "url": "https://www.coursera.org/account/accomplishments/records/AJTJEZM464H7"
+        },
+        {
+            "name": "The Bits and Bytes of Computer Networking",
+            "date": "2025-12-01",
+            "issuer": "Google",
+            "url": "https://www.coursera.org/account/accomplishments/records/IWYZ3LRIC2R0"
+        },
+        {
+            "name": "NPTEL Cloud Computing",
+            "date": "2025-11-01",
+            "issuer": "NPTEL",
+            "url": ""
+        },
+        {
+            "name": "Unity Essentials Pathway",
+            "date": "2025-11-01",
+            "issuer": "Unity",
+            "url": "https://www.credly.com/badges/76d2dbc0-c5e7-45bd-8e74-f3fdd8442ff9/linked_in_profile"
+        },
+        {
+            "name": "Retrieval Augmented Generation",
+            "date": "2025-08-01",
+            "issuer": "IBM",
+            "url": ""
+        },
+        {
+            "name": "Certificate of Publication",
+            "date": "2024-10-01",
+            "issuer": "IJERT",
+            "url": ""
+        }
+    ],
+    "publications": [
+        {
+            "name": "Comparative Study on Routing Protocols",
+            "publisher": "International Journal of Engineering Research & Technology (IJERT)",
+            "releaseDate": "2024-10-16",
+            "url": "https://www.ijert.org/comparative-study-of-routing-protocols",
+            "summary": "Conducted an in-depth analysis of various routing protocols and their performance across diverse network scenarios."
+        }
+    ],
+    "skills": [
+        {
+            "name": "Dart",
+            "level": "Advanced",
+            "keywords": [
+                "Asynchronous Programming",
+                "OOP",
+                "Null Safety"
+            ]
+        },
+        {
+            "name": "Rust",
+            "level": "Intermediate",
+            "keywords": [
+                "Ownership",
+                "Borrowing",
+                "Concurrency",
+                "Cargo"
+            ]
+        },
+        {
+            "name": "Flutter",
+            "level": "Advanced",
+            "keywords": [
+                "State Management",
+                "REST APIs",
+                "Custom UI/UX"
+            ]
+        },
+        {
+            "name": "SQL",
+            "level": "Intermediate",
+            "keywords": [
+                "SQLite",
+                "MySQL",
+                "Complex Queries",
+                "Schema Design"
+            ]
+        },
+        {
+            "name": "Version Control",
+            "level": "Advanced",
+            "keywords": [
+                "Git",
+                "GitHub",
+                "Branching",
+                "Merging"
+            ]
+        },
+        {
+            "name": "Security & Encryption",
+            "level": "Intermediate",
+            "keywords": [
+                "AES & RSA Encryption",
+                "Secure Local Storage"
+            ]
+        },
+        {
+            "name": "Data Structures & Algorithms",
+            "level": "Intermediate",
+            "keywords": [
+                "Algorithm Analysis",
+                "Core Data Structures"
+            ]
+        },
+        {
+            "name": "UX/UI Design",
+            "level": "Intermediate",
+            "keywords": [
+                "User-Centered Design",
+                "Intuitive UI Development"
+            ]
+        }
+    ],
+    "languages": [
+        {
+            "language": "English",
+            "fluency": "Fluent, Professional Working Proficiency"
+        },
+        {
+            "language": "Hindi",
+            "fluency": "Native/Bilingual, Native Proficiency"
+        },
+        {
+            "language": "Gujarati",
+            "fluency": "Native/Bilingual, Native Proficiency"
+        },
+        {
+            "language": "Marathi",
+            "fluency": "Basic, Elementary Proficiency"
+        }
+    ],
+    "interests": [],
+    "references": [],
+    "projects": [
+        {
+            "name": "Memoir",
+            "description": "Secure Offline-First Password Manager for Android",
+            "highlights": [
+                "Developed a secure, offline-first Flutter password manager, managing the full development lifecycle from UI/UX design to local data persistence using sqflite.",
+                "Engineered a robust security model using AES-CBC encryption for local storage and a hybrid RSA-AES system for secure backups, with keys derived via the Argon2id algorithm.",
+                "Integrated key features such as biometric authentication (fingerprint/face ID), a customizable random password generator, and an instant password strength indicator."
+            ],
+            "keywords": [
+                "Flutter",
+                "Dart",
+                "SQLite",
+                "AES-CBC",
+                "RSA-AES",
+                "Argon2id",
+                "Biometric Authentication"
+            ],
+            "startDate": "2024-06-01",
+            "endDate": "",
+            "url": "",
+            "github": "https://github.com/NotTheAmmar/memoir",
+            "roles": [
+                "Developer"
+            ],
+            "type": "Mobile Application",
+            "images": []
+        }
+    ]
+}
