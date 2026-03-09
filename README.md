@@ -1,6 +1,9 @@
-# Portfolio Application
+# Modern AI-Powered Portfolio
 
-A full-stack portfolio application built with the MERN stack (MongoDB, Express, React, Node.js) and Vite.
+A full-stack, customizable portfolio application built with the MERN stack (MongoDB, Express, React, Node.js) and Vite. 
+This portfolio features a sleek 3D interactive hero section using Three.js, seamless animations with Framer Motion, and AI-powered interactions via the Gemini API.
+
+It includes a secure Admin Dashboard that allows you to dynamically update your skills, projects, experience, and other details without touching the code.
 
 ## 🚀 Technologies
 
