@@ -33,30 +33,10 @@ It includes a secure Admin Dashboard that allows you to dynamically update your 
    - Frontend: http://localhost:5173
    - Backend: http://localhost:3001
 
-## ☁️ Deployment Guide (Free Tier Options)
+## ☁️ Deployment
 
-This project can be easily deployed using free-tier cloud providers. 
+This project is configured to be easily deployed on free-tier cloud providers like Render, Vercel, and MongoDB Atlas.
 
-### Recommended Free Stack:
-- **Database:** [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Free M0 Sandbox)
-- **Frontend:** [Vercel](https://vercel.com) or [Netlify](https://netlify.com)
-- **Backend:** [Render](https://render.com) or [Koyeb](https://koyeb.com)
+For step-by-step instructions on taking this full-stack application live, please read the [Deployment Guide (DEPLOYMENT.md)](./DEPLOYMENT.md).
 
-### Backend Deployment (e.g., Render)
-1. Create a new "Web Service" linking to your GitHub repository.
-2. Build Command: `npm install`
-3. Start Command: `npm run server`
-4. Environment Variables:
-   - `MONGODB_URI` = Your Atlas connection string
-   - `ADMIN_PASSWORD` = Your desired admin password
-   - `FRONTEND_URL` = Your deployed frontend URL (e.g., `https://my-portfolio.vercel.app`)
-
-### Frontend Deployment (e.g., Vercel)
-1. Import your GitHub repository to Vercel.
-2. Framework Preset: `Vite`
-3. Build Command: `npm run build`
-4. Output Directory: `dist`
-5. Environment Variables:
-   - `VITE_API_URL` = Your backend URL (e.g., `https://my-backend.onrender.com`)
-
-*(Note: Verify that your frontend's environment variable inside `vite.config.js` or API service correctly points to the configured `VITE_API_URL` for production requests).*
+For setting up the cloud database specifically, reference the [MongoDB Setup Guide (MONGODB_SETUP.md)](./MONGODB_SETUP.md).
