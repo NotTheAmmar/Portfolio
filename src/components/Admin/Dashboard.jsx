@@ -221,11 +221,8 @@ const Dashboard = () => {
         }
     };
 
-    const handleAutoGenerate = async (fieldName, fieldType, currentFormData) => {
+    const handleAutoGenerate = async (fieldName, fieldType, currentFormData, userContext = "") => {
         try {
-            const userContext = window.prompt("Optional: Provide any specific details, context, or instructions you'd like the AI to include (or leave blank).");
-            if (userContext === null) return null; // User cancelled
-
             // Build limited global context from existing data
             const globalContext = data && data.profileInformation 
                 ? `${data.profileInformation.name}, ${data.profileInformation.label} with skills in: ${data.skills ? data.skills.map(s => s.name).join(', ') : ''}` 
@@ -381,9 +378,21 @@ const Dashboard = () => {
                         Admin Dashboard
                     </h1>
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                        <button onClick={handleCopyContext} style={actionButtonStyle}>📋 Copy AI Context</button>
                         <button onClick={() => { logout(); navigate('/'); }} style={logoutButtonStyle}>Logout</button>
                     </div>
+                </div>
+
+                {/* AI Banner Component */}
+                <div style={{ background: 'var(--color-surface)', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', border: '1px solid var(--color-surface-hover)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div style={{ flex: '1 1 300px' }}>
+                        <h2 style={{ margin: '0 0 0.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>🤖 AI Portfolio Assistant</h2>
+                        <p style={{ margin: 0, opacity: 0.8, fontSize: '0.9rem', lineHeight: '1.5' }}>
+                            Extract all your meticulously entered details below into a structured markdown document. Perfect for pasting directly into ChatGPT or Claude to generate tailor-made cover letters and resumes.
+                        </p>
+                    </div>
+                    <button onClick={handleCopyContext} style={{ ...saveButtonStyle, background: '#3b82f6', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', fontSize: '0.95rem' }}>
+                        <span style={{ fontSize: '1.2rem' }}>📋</span> Copy All Context
+                    </button>
                 </div>
 
                 {/* Content */}
@@ -532,7 +541,7 @@ const FormContent = ({ type, formData, setFormData, onSubmit, saving, mode, onAu
     const getAutoGenerateFn = (field) => {
         if (!onAutoGenerate) return undefined;
         if (field.name === 'summary' || field.name === 'description' || (field.type === 'array' && (field.name === 'highlights' || field.name === 'keywords'))) {
-            return async () => await onAutoGenerate(field.name, field.type, formData);
+            return async (userContext) => await onAutoGenerate(field.name, field.type, formData, userContext);
         }
         return undefined;
     };
@@ -558,13 +567,44 @@ const FormContent = ({ type, formData, setFormData, onSubmit, saving, mode, onAu
     );
 };
 
+const ContextPromptModal = ({ isOpen, onClose, onSubmit }) => {
+    const [context, setContext] = React.useState('');
+    if (!isOpen) return null;
+    return (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100000 }}>
+            <div style={{ background: 'var(--color-surface)', padding: '2rem', borderRadius: '12px', width: '90%', maxWidth: '500px', border: '1px solid var(--color-surface-hover)', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)' }}>
+                <h3 style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>✨ Auto-Generate Content</h3>
+                <p style={{ opacity: 0.8, fontSize: '0.9rem', lineHeight: '1.5' }}>
+                    Provide any specific context, details, or instructions you'd like the AI to follow (e.g., "Keep it under 3 sentences", or "Focus on leadership skills"). Leave blank for a standard generation.
+                </p>
+                <textarea 
+                    value={context} 
+                    onChange={e => setContext(e.target.value)} 
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-surface-hover)', background: 'var(--color-bg)', color: 'var(--color-text)', minHeight: '120px', margin: '1rem 0', fontFamily: 'inherit', boxSizing: 'border-box' }}
+                    placeholder="Optional: Enter specific context here..."
+                />
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+                    <button type="button" onClick={onClose} style={{ padding: '0.5rem 1rem', borderRadius: '6px', background: 'var(--color-bg)', color: 'var(--color-text)', border: '1px solid var(--color-surface-hover)', cursor: 'pointer' }}>Cancel</button>
+                    <button type="button" onClick={() => { onSubmit(context); setContext(''); }} style={{ padding: '0.5rem 1.5rem', borderRadius: '6px', background: 'var(--color-accent)', color: 'var(--color-bg)', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>Generate</button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const FormField = ({ field, value, onChange, onAutoGenerate }) => {
     const [generating, setGenerating] = React.useState(false);
+    const [promptOpen, setPromptOpen] = React.useState(false);
     
-    const handleGenerateClick = async () => {
+    const handleGenerateClick = () => {
         if (!onAutoGenerate) return;
+        setPromptOpen(true);
+    };
+
+    const handlePromptSubmit = async (userContext) => {
+        setPromptOpen(false);
         setGenerating(true);
-        const result = await onAutoGenerate();
+        const result = await onAutoGenerate(userContext);
         if (result) onChange(result);
         setGenerating(false);
     };
@@ -604,6 +644,7 @@ const FormField = ({ field, value, onChange, onAutoGenerate }) => {
                     style={inputStyle}
                     placeholder={field.placeholder}
                 />
+                <ContextPromptModal isOpen={promptOpen} onClose={() => setPromptOpen(false)} onSubmit={handlePromptSubmit} />
             </div>
         );
     }
@@ -626,6 +667,7 @@ const FormField = ({ field, value, onChange, onAutoGenerate }) => {
                     )}
                 </div>
                 {items.map((item, index) => (
+
                     <div key={index} style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
                         <input
                             value={item}
@@ -656,6 +698,7 @@ const FormField = ({ field, value, onChange, onAutoGenerate }) => {
                 >
                     + Add {field.label}
                 </button>
+                <ContextPromptModal isOpen={promptOpen} onClose={() => setPromptOpen(false)} onSubmit={handlePromptSubmit} />
             </div>
         );
     }
