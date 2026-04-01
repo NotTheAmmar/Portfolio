@@ -223,6 +223,9 @@ const Dashboard = () => {
 
     const handleAutoGenerate = async (fieldName, fieldType, currentFormData) => {
         try {
+            const userContext = window.prompt("Optional: Provide any specific details, context, or instructions you'd like the AI to include (or leave blank).");
+            if (userContext === null) return null; // User cancelled
+
             // Build limited global context from existing data
             const globalContext = data && data.profileInformation 
                 ? `${data.profileInformation.name}, ${data.profileInformation.label} with skills in: ${data.skills ? data.skills.map(s => s.name).join(', ') : ''}` 
@@ -232,7 +235,8 @@ const Dashboard = () => {
                 fieldType: fieldName, // Use fieldName directly ('highlights', 'keywords', 'summary', or 'description')
                 sectionKey: modalType,
                 context: currentFormData,
-                globalContext
+                globalContext,
+                userContext
             };
             const response = await api.generateAIContent(payload, password);
             return response.generatedContent;
@@ -240,6 +244,88 @@ const Dashboard = () => {
             alert("AI Generation failed: " + error.message);
             return null;
         }
+    };
+
+    const handleCopyContext = () => {
+        if (!data) return;
+        
+        let contextText = `# My Professional Portfolio Context\n\n`;
+        
+        if (data.profileInformation) {
+            contextText += `## Profile\n`;
+            contextText += `- Name: ${data.profileInformation.name || ''}\n`;
+            contextText += `- Title: ${data.profileInformation.label || ''}\n`;
+            contextText += `- Summary: ${data.profileInformation.summary || ''}\n`;
+            if (data.profileInformation.location) {
+                contextText += `- Location: ${data.profileInformation.location.city || ''}, ${data.profileInformation.location.countryCode || ''}\n`;
+            }
+            contextText += `\n`;
+        }
+
+        if (data.skills && data.skills.length > 0) {
+            contextText += `## Skills\n`;
+            data.skills.forEach(skill => {
+                contextText += `- ${skill.name} (${skill.level || 'Experienced'}): ${skill.keywords ? skill.keywords.join(', ') : ''}\n`;
+            });
+            contextText += `\n`;
+        }
+
+        if (data.work && data.work.length > 0) {
+            contextText += `## Work Experience\n`;
+            data.work.forEach(w => {
+                contextText += `### ${w.position} at ${w.name}\n`;
+                contextText += `- Duration: ${w.startDate} to ${w.endDate || 'Present'}\n`;
+                if (w.summary) contextText += `- Summary: ${w.summary}\n`;
+                if (w.highlights && w.highlights.length > 0) {
+                    contextText += `- Highlights:\n`;
+                    w.highlights.forEach(h => contextText += `  * ${h}\n`);
+                }
+                contextText += `\n`;
+            });
+        }
+
+        if (data.education && data.education.length > 0) {
+            contextText += `## Education\n`;
+            data.education.forEach(e => {
+                contextText += `### ${e.studyType} in ${e.area} at ${e.institution}\n`;
+            });
+            contextText += `\n`;
+        }
+
+        if (data.projects && data.projects.length > 0) {
+            contextText += `## Projects\n`;
+            data.projects.forEach(p => {
+                contextText += `### ${p.name}\n`;
+                if (p.description) contextText += `- Description: ${p.description}\n`;
+                if (p.highlights && p.highlights.length > 0) {
+                    contextText += `- Highlights:\n`;
+                    p.highlights.forEach(h => contextText += `  * ${h}\n`);
+                }
+                contextText += `\n`;
+            });
+        }
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(contextText)
+            .then(() => {
+                setSaveMessage('✓ Copied AI Context to Clipboard!');
+                setTimeout(() => setSaveMessage(''), 3000);
+            })
+            .catch(err => {
+                console.error("Failed to copy:", err);
+                const textArea = document.createElement("textarea");
+                textArea.value = contextText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    setSaveMessage('✓ Copied AI Context to Clipboard!');
+                } catch (err) {
+                    setSaveMessage('✗ Failed to copy to clipboard.');
+                }
+                document.body.removeChild(textArea);
+                setTimeout(() => setSaveMessage(''), 3000);
+            });
     };
 
     if (loading) {
@@ -295,6 +381,7 @@ const Dashboard = () => {
                         Admin Dashboard
                     </h1>
                     <div style={{ display: 'flex', gap: '1rem' }}>
+                        <button onClick={handleCopyContext} style={actionButtonStyle}>📋 Copy AI Context</button>
                         <button onClick={() => { logout(); navigate('/'); }} style={logoutButtonStyle}>Logout</button>
                     </div>
                 </div>
@@ -597,7 +684,7 @@ const FormField = ({ field, value, onChange, onAutoGenerate }) => {
             if (!confirm('Are you sure you want to delete this file from the server?')) return;
             const fileToRemove = items[indexToRemove];
             try {
-                if (fileToRemove.startsWith('/uploads/')) {
+                if (fileToRemove.startsWith('/uploads/') || fileToRemove.includes('cloudinary.com')) {
                     await api.deleteFile(fileToRemove);
                 }
                 onChange(items.filter((_, i) => i !== indexToRemove));
@@ -935,6 +1022,13 @@ const logoutButtonStyle = {
     background: 'rgba(239, 68, 68, 0.2)',
     color: '#ef4444',
     border: '1px solid rgba(239, 68, 68, 0.5)'
+};
+
+const actionButtonStyle = {
+    ...buttonStyle,
+    background: 'rgba(59, 130, 246, 0.2)',
+    color: '#3b82f6',
+    border: '1px solid rgba(59, 130, 246, 0.5)'
 };
 
 const sectionCardStyle = {

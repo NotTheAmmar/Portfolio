@@ -19,7 +19,7 @@ router.post('/generate', verifyAdmin, async (req, res) => {
             return res.status(400).json({ error: 'GEMINI_API_KEY is not configured in the .env file.' });
         }
 
-        const { fieldType, sectionKey, context, globalContext } = req.body;
+        const { fieldType, sectionKey, context, globalContext, userContext } = req.body;
 
         if (!fieldType || !sectionKey) {
             return res.status(400).json({ error: 'Missing fieldType or sectionKey in request.' });
@@ -30,9 +30,13 @@ router.post('/generate', verifyAdmin, async (req, res) => {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         // Helper function to build the prompt
-        const buildPrompt = (fieldType, sectionKey, context, globalContext) => {
+        const buildPrompt = (fieldType, sectionKey, context, globalContext, userContext) => {
             let prompt = `You are a talented portfolio copywriter helping a professional present themselves. The user has the following background:\n${globalContext}\n\n`;
             prompt += `Write in a natural, conversational, and authentic human voice—as if the user is confidently yet humbly describing themselves. Avoid stiff corporate jargon, robotic phrasing, or overly formal buzzwords. Keep the tone warm, highly professional, and engaging.\n\n`;
+
+            if (userContext && userContext.trim() !== '') {
+                prompt += `User's Specific Instructions / Additional Context:\n"${userContext.trim()}"\n\nMake sure to incorporate this context while still following the general guidelines.\n\n`;
+            }
 
             const itemContext = JSON.stringify(context, null, 2);
 
@@ -55,7 +59,7 @@ router.post('/generate', verifyAdmin, async (req, res) => {
 
         let prompt;
         try {
-            prompt = buildPrompt(fieldType, sectionKey, context, globalContext);
+            prompt = buildPrompt(fieldType, sectionKey, context, globalContext, userContext);
         } catch (err) {
             return res.status(400).json({ error: err.message });
         }

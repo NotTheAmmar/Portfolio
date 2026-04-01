@@ -39,6 +39,9 @@ Render provides an excellent free tier for hosting Node.js/Express Web Services.
    - `ADMIN_PASSWORD` = A secure password for the admin panel
    - `FRONTEND_URL` = *(Leave this blank for now, we will come back and fill this in after deploying the frontend)*
    - `GEMINI_API_KEY` = Your Gemini API Key from Google AI Studio.
+   - `CLOUDINARY_CLOUD_NAME` = Your Cloudinary Cloud Name
+   - `CLOUDINARY_API_KEY` = Your Cloudinary API Key
+   - `CLOUDINARY_API_SECRET` = Your Cloudinary API Secret
 6. Click **Create Web Service**. 
 7. Once your service is live, **copy the URL provided by Render** (e.g., `https://portfolio-api-xyz.onrender.com`). You will need this for the frontend!
 
