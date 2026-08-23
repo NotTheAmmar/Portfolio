@@ -245,82 +245,207 @@ const Dashboard = () => {
 
     const handleCopyContext = () => {
         if (!data) return;
-        
-        let contextText = `# My Professional Portfolio Context\n\n`;
-        
+
+        let ctx = `# Portfolio Context\n\n`;
+
+        // ── Profile ─────────────────────────────────────────────────
         if (data.profileInformation) {
-            contextText += `## Profile\n`;
-            contextText += `- Name: ${data.profileInformation.name || ''}\n`;
-            contextText += `- Title: ${data.profileInformation.label || ''}\n`;
-            contextText += `- Summary: ${data.profileInformation.summary || ''}\n`;
-            if (data.profileInformation.location) {
-                contextText += `- Location: ${data.profileInformation.location.city || ''}, ${data.profileInformation.location.countryCode || ''}\n`;
+            const p = data.profileInformation;
+            ctx += `## Profile\n`;
+            if (p.name)    ctx += `- **Name:** ${p.name}\n`;
+            if (p.label)   ctx += `- **Title:** ${p.label}\n`;
+            if (p.email)   ctx += `- **Email:** ${p.email}\n`;
+            if (p.phone)   ctx += `- **Phone:** ${p.phone}\n`;
+            if (p.url)     ctx += `- **Website:** ${p.url}\n`;
+            if (p.location) {
+                const loc = [p.location.address, p.location.city, p.location.region, p.location.postalCode, p.location.countryCode].filter(Boolean).join(', ');
+                if (loc) ctx += `- **Location:** ${loc}\n`;
             }
-            contextText += `\n`;
+            if (p.summary) ctx += `- **Summary:** ${p.summary}\n`;
+            if (p.profiles && p.profiles.length > 0) {
+                ctx += `- **Social Profiles:**\n`;
+                p.profiles.forEach(pr => {
+                    ctx += `  - ${pr.network}: ${pr.url || pr.username || ''}\n`;
+                });
+            }
+            ctx += `\n`;
         }
 
+        // ── Skills ───────────────────────────────────────────────────
         if (data.skills && data.skills.length > 0) {
-            contextText += `## Skills\n`;
-            data.skills.forEach(skill => {
-                contextText += `- ${skill.name} (${skill.level || 'Experienced'}): ${skill.keywords ? skill.keywords.join(', ') : ''}\n`;
+            ctx += `## Skills\n`;
+            data.skills.forEach(s => {
+                ctx += `### ${s.name}`;
+                if (s.level) ctx += ` (${s.level})`;
+                ctx += `\n`;
+                if (s.description) ctx += `${s.description}\n`;
+                if (s.keywords && s.keywords.length > 0) ctx += `Keywords: ${s.keywords.join(', ')}\n`;
+                ctx += `\n`;
             });
-            contextText += `\n`;
         }
 
+        // ── Work Experience ──────────────────────────────────────────
         if (data.work && data.work.length > 0) {
-            contextText += `## Work Experience\n`;
+            ctx += `## Work Experience\n`;
             data.work.forEach(w => {
-                contextText += `### ${w.position} at ${w.name}\n`;
-                contextText += `- Duration: ${w.startDate} to ${w.endDate || 'Present'}\n`;
-                if (w.summary) contextText += `- Summary: ${w.summary}\n`;
+                ctx += `### ${w.position} at ${w.name}\n`;
+                const dur = [w.startDate, w.endDate || 'Present'].filter(Boolean).join(' – ');
+                if (dur) ctx += `- **Duration:** ${dur}\n`;
+                if (w.location) ctx += `- **Location:** ${w.location}\n`;
+                if (w.url) ctx += `- **URL:** ${w.url}\n`;
+                if (w.summary) ctx += `- **Summary:** ${w.summary}\n`;
                 if (w.highlights && w.highlights.length > 0) {
-                    contextText += `- Highlights:\n`;
-                    w.highlights.forEach(h => contextText += `  * ${h}\n`);
+                    ctx += `- **Highlights:**\n`;
+                    w.highlights.forEach(h => ctx += `  * ${h}\n`);
                 }
-                contextText += `\n`;
+                ctx += `\n`;
             });
         }
 
+        // ── Education ────────────────────────────────────────────────
         if (data.education && data.education.length > 0) {
-            contextText += `## Education\n`;
+            ctx += `## Education\n`;
             data.education.forEach(e => {
-                contextText += `### ${e.studyType} in ${e.area} at ${e.institution}\n`;
+                ctx += `### ${e.studyType || ''} in ${e.area || ''} — ${e.institution || ''}\n`;
+                const dur = [e.startDate, e.endDate].filter(Boolean).join(' – ');
+                if (dur) ctx += `- **Duration:** ${dur}\n`;
+                if (e.score) ctx += `- **Score / GPA:** ${e.score}\n`;
+                if (e.location) ctx += `- **Location:** ${e.location}\n`;
+                if (e.url) ctx += `- **URL:** ${e.url}\n`;
+                if (e.description) ctx += `- **Description:** ${e.description}\n`;
+                if (e.courses && e.courses.length > 0) ctx += `- **Courses:** ${e.courses.join(', ')}\n`;
+                ctx += `\n`;
             });
-            contextText += `\n`;
         }
 
+        // ── Projects ─────────────────────────────────────────────────
         if (data.projects && data.projects.length > 0) {
-            contextText += `## Projects\n`;
+            ctx += `## Projects\n`;
             data.projects.forEach(p => {
-                contextText += `### ${p.name}\n`;
-                if (p.description) contextText += `- Description: ${p.description}\n`;
+                ctx += `### ${p.name}\n`;
+                if (p.type) ctx += `- **Type:** ${p.type}\n`;
+                const dur = [p.startDate, p.endDate].filter(Boolean).join(' – ');
+                if (dur) ctx += `- **Duration:** ${dur}\n`;
+                if (p.url) ctx += `- **Live URL:** ${p.url}\n`;
+                if (p.github) ctx += `- **GitHub:** ${p.github}\n`;
+                if (p.description) ctx += `- **Description:** ${p.description}\n`;
+                if (p.roles && p.roles.length > 0) ctx += `- **Roles:** ${p.roles.join(', ')}\n`;
+                if (p.keywords && p.keywords.length > 0) ctx += `- **Technologies:** ${p.keywords.join(', ')}\n`;
                 if (p.highlights && p.highlights.length > 0) {
-                    contextText += `- Highlights:\n`;
-                    p.highlights.forEach(h => contextText += `  * ${h}\n`);
+                    ctx += `- **Highlights:**\n`;
+                    p.highlights.forEach(h => ctx += `  * ${h}\n`);
                 }
-                contextText += `\n`;
+                ctx += `\n`;
             });
         }
-        
-        // Copy to clipboard
-        navigator.clipboard.writeText(contextText)
+
+        // ── Volunteer ────────────────────────────────────────────────
+        if (data.volunteer && data.volunteer.length > 0) {
+            ctx += `## Volunteer Experience\n`;
+            data.volunteer.forEach(v => {
+                ctx += `### ${v.position} at ${v.organization}\n`;
+                const dur = [v.startDate, v.endDate || 'Present'].filter(Boolean).join(' – ');
+                if (dur) ctx += `- **Duration:** ${dur}\n`;
+                if (v.location) ctx += `- **Location:** ${v.location}\n`;
+                if (v.url) ctx += `- **URL:** ${v.url}\n`;
+                if (v.summary) ctx += `- **Summary:** ${v.summary}\n`;
+                if (v.highlights && v.highlights.length > 0) {
+                    ctx += `- **Highlights:**\n`;
+                    v.highlights.forEach(h => ctx += `  * ${h}\n`);
+                }
+                ctx += `\n`;
+            });
+        }
+
+        // ── Awards ───────────────────────────────────────────────────
+        if (data.awards && data.awards.length > 0) {
+            ctx += `## Awards\n`;
+            data.awards.forEach(a => {
+                ctx += `### ${a.title}\n`;
+                if (a.date) ctx += `- **Date:** ${a.date}\n`;
+                if (a.awarder) ctx += `- **Awarder:** ${a.awarder}\n`;
+                if (a.summary) ctx += `- **Summary:** ${a.summary}\n`;
+                ctx += `\n`;
+            });
+        }
+
+        // ── Certificates ─────────────────────────────────────────────
+        if (data.certificates && data.certificates.length > 0) {
+            ctx += `## Certificates\n`;
+            data.certificates.forEach(c => {
+                ctx += `### ${c.name}\n`;
+                if (c.issuer) ctx += `- **Issuer:** ${c.issuer}\n`;
+                if (c.date) ctx += `- **Date:** ${c.date}\n`;
+                if (c.url) ctx += `- **URL:** ${c.url}\n`;
+                ctx += `\n`;
+            });
+        }
+
+        // ── Publications ─────────────────────────────────────────────
+        if (data.publications && data.publications.length > 0) {
+            ctx += `## Publications\n`;
+            data.publications.forEach(p => {
+                ctx += `### ${p.name}\n`;
+                if (p.publisher) ctx += `- **Publisher:** ${p.publisher}\n`;
+                if (p.releaseDate) ctx += `- **Release Date:** ${p.releaseDate}\n`;
+                if (p.url) ctx += `- **URL:** ${p.url}\n`;
+                if (p.summary) ctx += `- **Summary:** ${p.summary}\n`;
+                ctx += `\n`;
+            });
+        }
+
+        // ── Languages ────────────────────────────────────────────────
+        if (data.languages && data.languages.length > 0) {
+            ctx += `## Languages\n`;
+            data.languages.forEach(l => {
+                ctx += `- ${l.language}: ${l.fluency || ''}\n`;
+            });
+            ctx += `\n`;
+        }
+
+        // ── Interests ────────────────────────────────────────────────
+        if (data.interests && data.interests.length > 0) {
+            ctx += `## Interests\n`;
+            data.interests.forEach(i => {
+                ctx += `- **${i.name}**`;
+                if (i.keywords && i.keywords.length > 0) ctx += `: ${i.keywords.join(', ')}`;
+                ctx += `\n`;
+            });
+            ctx += `\n`;
+        }
+
+        // ── References ───────────────────────────────────────────────
+        if (data.references && data.references.length > 0) {
+            ctx += `## References\n`;
+            data.references.forEach(r => {
+                ctx += `### ${r.name}\n`;
+                if (r.reference) ctx += `"${r.reference}"\n`;
+                ctx += `\n`;
+            });
+        }
+
+        // ── Copy to clipboard ────────────────────────────────────────
+        navigator.clipboard.writeText(ctx)
             .then(() => {
-                setSaveMessage('✓ Copied AI Context to Clipboard!');
+                setSaveMessage('✓ Copied full portfolio context to clipboard!');
                 setTimeout(() => setSaveMessage(''), 3000);
             })
-            .catch(err => {
-                console.error("Failed to copy:", err);
-                const textArea = document.createElement("textarea");
-                textArea.value = contextText;
-                document.body.appendChild(textArea);
-                textArea.select();
+            .catch(() => {
+                // Fallback for environments that block clipboard API
+                const el = document.createElement('textarea');
+                el.value = ctx;
+                el.style.position = 'fixed';
+                el.style.opacity = '0';
+                document.body.appendChild(el);
+                el.focus();
+                el.select();
                 try {
                     document.execCommand('copy');
-                    setSaveMessage('✓ Copied AI Context to Clipboard!');
-                } catch (err) {
-                    setSaveMessage('✗ Failed to copy to clipboard.');
+                    setSaveMessage('✓ Copied full portfolio context to clipboard!');
+                } catch {
+                    setSaveMessage('✗ Failed to copy – please copy manually.');
                 }
-                document.body.removeChild(textArea);
+                document.body.removeChild(el);
                 setTimeout(() => setSaveMessage(''), 3000);
             });
     };
@@ -569,7 +694,19 @@ const FormContent = ({ type, formData, setFormData, onSubmit, saving, mode, onAu
 
 const ContextPromptModal = ({ isOpen, onClose, onSubmit }) => {
     const [context, setContext] = React.useState('');
+
+    // Reset textarea whenever the modal is closed/re-opened
+    React.useEffect(() => {
+        if (!isOpen) setContext('');
+    }, [isOpen]);
+
     if (!isOpen) return null;
+
+    const handleClose = () => {
+        setContext('');
+        onClose();
+    };
+
     return (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100000 }}>
             <div style={{ background: 'var(--color-surface)', padding: '2rem', borderRadius: '12px', width: '90%', maxWidth: '500px', border: '1px solid var(--color-surface-hover)', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)' }}>
@@ -577,15 +714,17 @@ const ContextPromptModal = ({ isOpen, onClose, onSubmit }) => {
                 <p style={{ opacity: 0.8, fontSize: '0.9rem', lineHeight: '1.5' }}>
                     Provide any specific context, details, or instructions you'd like the AI to follow (e.g., "Keep it under 3 sentences", or "Focus on leadership skills"). Leave blank for a standard generation.
                 </p>
-                <textarea 
-                    value={context} 
-                    onChange={e => setContext(e.target.value)} 
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-surface-hover)', background: 'var(--color-bg)', color: 'var(--color-text)', minHeight: '120px', margin: '1rem 0', fontFamily: 'inherit', boxSizing: 'border-box' }}
-                    placeholder="Optional: Enter specific context here..."
+                <textarea
+                    autoFocus
+                    value={context}
+                    onChange={e => setContext(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { onSubmit(context); setContext(''); } }}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-surface-hover)', background: 'var(--color-bg)', color: 'var(--color-text)', minHeight: '120px', margin: '1rem 0', fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }}
+                    placeholder="Optional: Enter specific context here... (Ctrl+Enter to generate)"
                 />
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                    <button type="button" onClick={onClose} style={{ padding: '0.5rem 1rem', borderRadius: '6px', background: 'var(--color-bg)', color: 'var(--color-text)', border: '1px solid var(--color-surface-hover)', cursor: 'pointer' }}>Cancel</button>
-                    <button type="button" onClick={() => { onSubmit(context); setContext(''); }} style={{ padding: '0.5rem 1.5rem', borderRadius: '6px', background: 'var(--color-accent)', color: 'var(--color-bg)', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>Generate</button>
+                    <button type="button" onClick={handleClose} style={{ padding: '0.5rem 1rem', borderRadius: '6px', background: 'var(--color-bg)', color: 'var(--color-text)', border: '1px solid var(--color-surface-hover)', cursor: 'pointer' }}>Cancel</button>
+                    <button type="button" onClick={() => { onSubmit(context); setContext(''); }} style={{ padding: '0.5rem 1.5rem', borderRadius: '6px', background: 'var(--color-accent)', color: 'var(--color-bg)', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>✨ Generate</button>
                 </div>
             </div>
         </div>
